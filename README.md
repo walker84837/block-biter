@@ -26,11 +26,11 @@ avoiding collisions with the snake's own body.
 
 1. Clone the repository:
    ``` console
-   git clone https://github.com/walker84837/block-biter.git
+   $ git clone https://github.com/walker84837/block-biter.git
    ```
 2. Navigate to the project directory:
    ``` console
-   cd block-biter
+   $ cd block-biter
    ```
 3. Build the project:
    ``` console
@@ -81,19 +81,19 @@ For major changes, open an issue first to discuss what you would like to change.
 1. Fork the repository.
 2. Clone your fork:
    ``` console
-   git clone https://github.com/walker84837/block-biter.git
+   $ git clone https://github.com/walker84837/block-biter.git
    ```
 3. Create a new branch:
    ``` console
-   git checkout -b feature/your-feature
+   $ git checkout -b feature/your-feature
    ```
 4. Make your changes and commit them:
    ``` console
-   git commit -m 'Add some feature'
+   $ git commit -m 'Add some feature'
    ```
 5. Push to the branch:
    ``` console
-   git push origin feature/your-feature
+   $ git push origin feature/your-feature
    ```
 6. Open a pull request.
 
