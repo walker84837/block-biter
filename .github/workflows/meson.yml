@@ -14,11 +14,38 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-        # Install Meson, Ninja, build-essential, Raylib and nlohmann/json development files.
-      - name: Install build dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y meson ninja-build build-essential libraylib-dev libnlohmann-json-dev
+          # Install build tools and libraries required
+          sudo apt-get install -y \
+            meson \
+            ninja-build \
+            build-essential \
+            cmake \
+            git \
+            libgl1-mesa-dev \
+            xorg-dev \
+            libopenal-dev \
+            libudev-dev \
+            libxi-dev \
+            libxrandr-dev \
+            libxcursor-dev \
+            libxinerama-dev \
+            libasound2-dev
+          # Install nlohmann-json package available as nlohmann-json3-dev
+          sudo apt-get install -y nlohmann-json3-dev
+
+      - name: Build and install Raylib from source
+        run: |
+          # Clone the raylib repository.
+          git clone --depth 1 https://github.com/raysan5/raylib.git
+          cd raylib/src
+          # Build for desktop platforms.
+          make PLATFORM=PLATFORM_DESKTOP
+          # Install the built library.
+          sudo make install
+          cd ../..
 
       - name: Configure build directory with Meson
         run: |
