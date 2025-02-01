@@ -27,7 +27,7 @@
 *.lib
 
 # Executables
-bin/
+build/
 obj/
 *.exe
 *.out

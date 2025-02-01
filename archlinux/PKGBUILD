@@ -1,21 +1,22 @@
 # Maintainer: walker84837 <walker84837@gmail.com>
 pkgname=block-biter
-pkgver=0.1.0
+pkgver=0.1.1
 pkgrel=1
 pkgdesc="Simple and suckless Snake implementation"
 arch=('x86_64')
 url="https://github.com/walker84837/block-biter"
 license=('GPL-3.0')
 depends=('raylib' 'nlohmann-json')
-# makedepends=('git')
+makedepends=('meson')
 source=("git+https://github.com/walker84837/block-biter.git")
 md5sums=('SKIP')
 
 build() {
   cd "$pkgname" || return
   
-  # Build the project using the provided Makefile
-  make
+  mkdir build
+  meson setup build
+  meson compile -C build
 }
 
 package() {
@@ -23,5 +24,5 @@ package() {
   
   # Install binaries to the correct locations under $pkgdir
   mkdir -p "$pkgdir/usr/bin"
-  install -m755 bin/blockbiter "$pkgdir/usr/bin/"
+  install -m755 build/blockbiter "$pkgdir/usr/bin/"
 }
