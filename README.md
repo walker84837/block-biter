@@ -2,17 +2,14 @@
 
 ![License](https://img.shields.io/badge/license-GPLv3-blue.svg)
 
-Block Biter is an engaging and dynamic take on the classic snake game, built
-with C++ and utilizing the Raylib library for rendering. This game challenges
-players to navigate a snake around the grid, consuming food to grow longer while
-avoiding collisions with the snake's own body.
+Block Biter is just a fancy nickname to Snake. I built with C++ using Raylib for rendering.
+
+If you live under a rock, you have to guide a snake around a grid, consuming food to grow longer while avoiding hitting with the snake's own body.
 
 ## Features
 
-- Classic snake gameplay with a modern twist.
-- Configurable settings for frame rate, screen width, and screen height via a JSON file.
-- Smooth and responsive controls using keyboard inputs.
-- Dynamic food placement and snake growth mechanics.
+- Configurable settings for frame rate, screen width, and screen height via a simple header file (config.def.h) and a JSON file (config.json).
+- It's a snake game, you get the drill.
 
 ## Installation
 
@@ -21,6 +18,7 @@ avoiding collisions with the snake's own body.
 - C++17 or later
 - Raylib library
 - nlohmann/json library
+- build tools: [meson](https://mesonbuild.com/), [ninja](https://ninja-build.org/)
 
 ### Steps
 
@@ -34,11 +32,13 @@ avoiding collisions with the snake's own body.
    ```
 3. Build the project:
    ``` console
-   $ make
+   $ mkdir build
+   $ meson setup build
+   $ meson compile -C build
    ```
 4. Run the game:
    ``` console
-   $ ./bin/blockbiter
+   $ ./build/blockbiter
    ```
 
 ## Usage
@@ -50,7 +50,7 @@ avoiding collisions with the snake's own body.
 
 ## Configuration
 
-The game configuration is managed via a `config.json` file. Example:
+The game settings are managed via a `config.json` file. Example:
 ```json
 {
   "maxfps": 60,
@@ -60,13 +60,14 @@ The game configuration is managed via a `config.json` file. Example:
 ```
 Adjust the `maxfps`, `width`, and `height` values to fit your preferences.
 
+Otherwise, the aesthetics (such as colors) are managed via the [config.def.h](src/config.def.h) file.
+
 ## Support
 
 For any issues or questions, please open an issue on the GitHub repository.
 
 ## Roadmap
 
-- Add different levels with increasing difficulty.
 - Introduce obstacles and power-ups.
 - Implement a scoring leaderboard.
 - Add sound effects and music.
@@ -103,4 +104,4 @@ This project is licensed under the [GNU GPLv3](LICENSE.md).
 
 ## Project Status
 
-Currently under heavy development. Contributions and suggestions are highly appreciated.
+Currently under occasional development. Contributions and suggestions are highly appreciated.
