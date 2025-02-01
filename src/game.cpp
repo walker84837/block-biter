@@ -1,9 +1,9 @@
 #include "game.h"
+#include "err_handling.h"
 #include <iostream>
 #include <random>
 #include <nlohmann/json.hpp>
 #include <fstream>
-#include <stdexcept>
 
 Game::Game() {
   for (int i = 0; i < GRID_WIDTH; ++i) {
@@ -13,10 +13,10 @@ Game::Game() {
   }
 }
 
-void LoadConfig(int &frame_rate, int &screen_width, int &screen_height) {
+int LoadConfig(int &frame_rate, int &screen_width, int &screen_height) {
   std::ifstream config("config.json");
   if (!config.is_open()) {
-  	throw std::runtime_error("File \"config.json\" doesn't exist.");
+    return error("File \"config.json\" doesn't exist.", 1);
   }
 
   nlohmann::json data;
@@ -26,12 +26,13 @@ void LoadConfig(int &frame_rate, int &screen_width, int &screen_height) {
   frame_rate = static_cast<int>(fps_max * 0.75);
   screen_width = static_cast<int>(data["width"]);
   screen_height = static_cast<int>(data["height"]);
+  return 0;
 }
 
 void Game::Run() {
-  LoadConfig(frame_rate_, screen_width_, screen_height_);
+  if (LoadConfig(frame_rate_, screen_width_, screen_height_) != 0) std::exit(1);
   
-  InitWindow(screen_width_, screen_height_, "C++ Snake");
+  InitWindow(screen_width_, screen_height_, "Block Biter");
   SetTargetFPS(frame_rate_);
 
   alive_ = true;
@@ -76,10 +77,14 @@ void Game::PollEvents() {
   if (IsKeyPressed(KEY_DOWN) && last_dir_ != Move::kUp) dir_ = Move::kDown;
   if (IsKeyPressed(KEY_LEFT) && last_dir_ != Move::kRight) dir_ = Move::kLeft;
   if (IsKeyPressed(KEY_RIGHT) && last_dir_ != Move::kLeft) dir_ = Move::kRight;
+
+  if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_Q)) {
+    running_ = false;
+  }
 }
 
 void Game::EndGame() {
-  std::cout << "Game Over!" << '\n' << "Score: " << score_ << ", size: " << size_ << "\n";
+  std::cout << "Game Over!" << std::endl << "Score: " << score_ << std::endl;
   std::exit(0);
 }
 
@@ -149,21 +154,21 @@ void Game::Update() {
 
 void Game::Render() {
   BeginDrawing();
-  ClearBackground(BLACK);
+  ClearBackground(BACKGROUND_COLOR);
 
   int block_width = screen_width_ / GRID_WIDTH;
   int block_height = screen_height_ / GRID_HEIGHT;
 
   // Render food
-  DrawRectangle(food_.x * block_width, food_.y * block_height, block_width, block_height, RED);
+  DrawRectangle(food_.x * block_width, food_.y * block_height, block_width, block_height, FOOD_COLOR);
 
   // Render snake's body
   for (const auto &point : body_) {
-    DrawRectangle(point.x * block_width, point.y * block_height, block_width, block_height, BLUE);
+    DrawRectangle(point.x * block_width, point.y * block_height, block_width, block_height, SNAKE_BODY_COLOR);
   }
 
   // Render snake's head
-  Color head_color = alive_ ? GREEN : DARKGRAY;
+  Color head_color = alive_ ? SNAKE_HEAD_COLOR : SNAKE_DEAD_COLOR;
   DrawRectangle(head_.x * block_width, head_.y * block_height, block_width, block_height, head_color);
 
   EndDrawing();

@@ -27,11 +27,17 @@
 *.lib
 
 # Executables
+bin/
+obj/
 *.exe
 *.out
 *.app
 
-bin/
-obj/
+# Config files
 *.json
-blockbiter
+
+# Arch Linux package files
+archlinux/*.pkg.tar.zst
+archlinux/pkg
+archlinux/src
+archlinux/block-biter
