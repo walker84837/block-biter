@@ -1,0 +1,32 @@
+name: Build block-biter
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+        # Install Meson, Ninja, build-essential, Raylib and nlohmann/json development files.
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson ninja-build build-essential libraylib-dev libnlohmann-json-dev
+
+      - name: Configure build directory with Meson
+        run: |
+          mkdir build
+          meson setup build
+
+      - name: Build project with Ninja
+        run: meson compile -C build
+
+      - name: List build artifacts
+        run: ls -l build
